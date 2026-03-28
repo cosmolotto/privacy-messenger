@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy Messenger — Encrypted Messaging</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#13131a;--border:#1e1e2e;--text:#e2e2f0;--muted:#6b6b8a;--accent:#7c3aed;--accent2:#a855f7}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);border-radius:100px;padding:6px 16px;font-size:13px;color:var(--accent2);margin-bottom:32px;letter-spacing:.5px}
+h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;line-height:1.1;margin-bottom:20px;background:linear-gradient(135deg,#fff 0%,var(--accent2) 60%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+p{font-size:1.15rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bottom:40px}
+.features{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:48px}
+.feat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;font-size:14px;color:var(--muted)}
+.feat span{display:block;font-size:22px;margin-bottom:8px}
+.feat strong{display:block;color:var(--text);margin-bottom:4px}
+.cta{display:inline-flex;gap:12px;align-items:center;background:var(--accent);color:#fff;font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;transition:.2s}
+.cta:hover{background:var(--accent2)}
+.sub{margin-top:16px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="badge">🔐 End-to-End Encrypted</div>
+<h1>Messages That Stay<br>Between You</h1>
+<p>Privacy Messenger delivers military-grade encrypted messaging, voice, and video — with zero data collection. Open source. Always.</p>
+<div class="features">
+  <div class="feat"><span>🔒</span><strong>E2E Encryption</strong>Signal Protocol</div>
+  <div class="feat"><span>📱</span><strong>Cross-Platform</strong>iOS, Android, Web</div>
+  <div class="feat"><span>🚫</span><strong>Zero Tracking</strong>No logs. No ads.</div>
+  <div class="feat"><span>⚡</span><strong>Real-Time</strong>Instant delivery</div>
+</div>
+<a href="https://github.com/cosmolotto/privacy-messenger" class="cta">View on GitHub →</a>
+<p class="sub">Open source · MIT License · Built by cosmolotto</p>
+</body>
+</html>

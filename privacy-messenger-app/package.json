@@ -14,22 +14,23 @@
     "cap:build:apk": "npm run build && npx cap sync && cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "socket.io-client": "^4.7.4",
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/app": "^6.0.0",
     "@capacitor/core": "^6.0.0",
+    "@capacitor/haptics": "^6.0.0",
+    "@capacitor/keyboard": "^6.0.0",
+    "@capacitor/local-notifications": "^6.0.0",
     "@capacitor/push-notifications": "^6.0.0",
     "@capacitor/splash-screen": "^6.0.0",
     "@capacitor/status-bar": "^6.0.0",
-    "@capacitor/keyboard": "^6.0.0",
-    "@capacitor/local-notifications": "^6.0.0",
-    "@capacitor/haptics": "^6.0.0",
-    "@capacitor/app": "^6.0.0",
-    "firebase": "^10.8.0"
+    "firebase": "^10.8.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "socket.io-client": "^4.7.4"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
     "@capacitor/cli": "^6.0.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "vite": "^5.4.0"
   }
 }

@@ -16,8 +16,11 @@ p{font-size:1.15rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bo
 .feat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;font-size:14px;color:var(--muted)}
 .feat span{display:block;font-size:22px;margin-bottom:8px}
 .feat strong{display:block;color:var(--text);margin-bottom:4px}
+.ctas{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .cta{display:inline-flex;gap:12px;align-items:center;background:var(--accent);color:#fff;font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;transition:.2s}
 .cta:hover{background:var(--accent2)}
+.cta-outline{display:inline-flex;gap:12px;align-items:center;background:transparent;color:var(--accent2);font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;border:1px solid rgba(124,58,237,.4);transition:.2s}
+.cta-outline:hover{background:rgba(124,58,237,.1);border-color:var(--accent2)}
 .sub{margin-top:16px;font-size:13px;color:var(--muted)}
 </style>
 </head>
@@ -31,7 +34,10 @@ p{font-size:1.15rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bo
   <div class="feat"><span>🚫</span><strong>Zero Tracking</strong>No logs. No ads.</div>
   <div class="feat"><span>⚡</span><strong>Real-Time</strong>Instant delivery</div>
 </div>
-<a href="https://github.com/cosmolotto/privacy-messenger" class="cta">View on GitHub →</a>
+<div class="ctas">
+  <a href="https://github.com/cosmolotto/privacy-messenger" class="cta">View on GitHub →</a>
+  <a href="https://privacy-messenger-app.vercel.app" class="cta-outline">Try the App →</a>
+</div>
 <p class="sub">Open source · MIT License · Built by cosmolotto</p>
 </body>
 </html>

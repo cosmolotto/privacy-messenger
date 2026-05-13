@@ -31,9 +31,24 @@ p{font-size:1.15rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bo
 .cta-outline{display:inline-flex;gap:12px;align-items:center;background:transparent;color:var(--accent2);font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;border:1px solid rgba(124,58,237,.4);transition:.2s}
 .cta-outline:hover{background:rgba(124,58,237,.1);border-color:var(--accent2)}
 .sub{margin-top:16px;font-size:13px;color:var(--muted)}
+.mrv-hud{position:fixed;top:18px;right:18px;display:flex;align-items:center;gap:10px;font-size:.78rem;color:var(--accent2);background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);padding:7px 14px;border-radius:100px;font-weight:600;z-index:10}
+.mrv-hud button{background:none;border:1px solid rgba(168,85,247,.5);color:var(--accent2);font-size:.65rem;padding:4px 10px;border-radius:100px;cursor:pointer;letter-spacing:.1em;font-family:inherit;font-weight:600}
+.pro-panel{margin-top:60px;max-width:520px;background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(168,85,247,.04));border:1px solid rgba(168,85,247,.25);border-radius:16px;padding:28px 32px}
+.pro-panel h3{font-size:1.15rem;margin-bottom:8px;color:var(--text)}
+.pro-panel ul{list-style:none;text-align:left;margin:14px 0 20px;font-size:.92rem;color:var(--muted)}
+.pro-panel ul li{margin-bottom:6px}
+.pro-panel ul li::before{content:'✓ ';color:var(--accent2);font-weight:700}
+.pro-row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+.pro-row .cta{padding:11px 22px;font-size:14px}
+.invite-panel{margin-top:24px;max-width:520px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.invite-panel button{background:var(--accent2);color:#fff;border:none;font-weight:600;padding:9px 16px;border-radius:8px;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
+<div class="mrv-hud">
+  <span>◈ <span id="mrv-hud-val">—</span> MRV</span>
+  <button id="mrv-hud-btn">CONNECT</button>
+</div>
 <div class="badge">🔐 End-to-End Encrypted</div>
 <h1>Messages That Stay<br>Between You</h1>
 <p>Privacy Messenger delivers military-grade encrypted messaging, voice, and video — with zero data collection. Open source. Always.</p>
@@ -47,6 +62,101 @@ p{font-size:1.15rem;color:var(--muted);max-width:520px;line-height:1.7;margin-bo
   <a href="https://github.com/cosmolotto/privacy-messenger" class="cta">View on GitHub →</a>
   <a href="https://privacy-messenger-app.vercel.app" class="cta-outline">Try the App →</a>
 </div>
-<p class="sub">Open source · MIT License · Built by cosmolotto</p>
+
+<div class="pro-panel">
+  <h3>Privacy Messenger Pro · 50 MRV</h3>
+  <ul>
+    <li>Unlimited message history sync across devices</li>
+    <li>Disappearing-message timers down to 1 minute</li>
+    <li>Encrypted file sharing up to 1 GB</li>
+    <li>Custom themes & sealed-sender by default</li>
+  </ul>
+  <div class="pro-row">
+    <a href="#" id="pro-mrv-btn" class="cta">◈ Upgrade with 50 MRV</a>
+    <a href="https://gumroad.com/cosmolotto/privacy-messenger-pro" class="cta-outline">Or pay $5 USD</a>
+  </div>
+</div>
+
+<div class="invite-panel">
+  <div style="text-align:left">
+    <strong>Earn 3 MRV per invite</strong>
+    <div style="font-size:.82rem;color:var(--muted);margin-top:3px">Friend signs up → 3 MRV airdrops to your wallet</div>
+  </div>
+  <button id="invite-btn">Invite Friend</button>
+</div>
+
+<p class="sub" style="margin-top:36px">Open source · MIT License · Built by cosmolotto</p>
+
+<script src="https://morven-sdk.vercel.app/morven.js"></script>
+<script>
+const MORVEN_API = 'https://morven-wallet-api.onrender.com';
+
+async function refreshHudBalance() {
+  try {
+    if (typeof morvenWallet === 'undefined') return;
+    const bal = await morvenWallet.getBalance();
+    document.getElementById('mrv-hud-val').textContent = parseFloat(bal.mrv || 0).toFixed(1);
+    document.getElementById('mrv-hud-btn').textContent = 'CONNECTED';
+  } catch (e) { /* not logged in */ }
+}
+
+document.getElementById('mrv-hud-btn').addEventListener('click', async () => {
+  try { await morvenWallet.login(); refreshHudBalance(); }
+  catch (e) { /* user cancelled */ }
+});
+
+document.getElementById('pro-mrv-btn').addEventListener('click', async (e) => {
+  e.preventDefault();
+  try {
+    const auth = await morvenWallet.login();
+    const bal = await morvenWallet.getBalance(auth.jwt);
+    if (bal.mrv < 50) {
+      alert('Need 50 MRV — you have ' + bal.mrv.toFixed(1) + '. Earn MRV across the Morven Empire apps.');
+      return;
+    }
+    if (!confirm('Upgrade to Privacy Messenger Pro for 50 MRV?\nBalance after: ' + (bal.mrv - 50).toFixed(1) + ' MRV')) return;
+    const tx = await morvenWallet.pay(auth.jwt, 50, 'privacy-messenger-pro');
+    if (tx.success) {
+      localStorage.setItem('pm_pro_tx', tx.tx_id);
+      alert('✓ Pro unlocked! TX: ' + tx.tx_id);
+      refreshHudBalance();
+    }
+  } catch (e) {
+    if (confirm('MRV payment failed: ' + e.message + '\n\nUse Gumroad ($5 USD) instead?')) {
+      window.location.href = 'https://gumroad.com/cosmolotto/privacy-messenger-pro';
+    }
+  }
+});
+
+document.getElementById('invite-btn').addEventListener('click', async () => {
+  try {
+    const auth = await morvenWallet.login();
+    const wallet = (auth.user && (auth.user.wallet_id || auth.user.email)) || 'unknown';
+    const inviteLink = location.origin + '/?ref=' + encodeURIComponent(wallet);
+    if (navigator.share) {
+      await navigator.share({ title: 'Privacy Messenger', text: 'Try truly private messaging — earn 3 MRV when you sign up.', url: inviteLink });
+    } else {
+      await navigator.clipboard.writeText(inviteLink);
+      alert('Invite link copied! You earn 3 MRV per friend who signs up.');
+    }
+  } catch (e) { /* user cancelled or share unsupported */ }
+});
+
+/* If page loaded with ?ref=, airdrop 3 MRV to the referrer */
+(async function processReferral() {
+  const params = new URLSearchParams(location.search);
+  const ref = params.get('ref');
+  if (!ref || localStorage.getItem('pm_referral_claimed_' + ref)) return;
+  try {
+    const r = await fetch(MORVEN_API + '/api/airdrop', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ to: ref, amount: 3, reason: 'privacy_messenger_invite' })
+    });
+    if (r.ok) localStorage.setItem('pm_referral_claimed_' + ref, '1');
+  } catch (e) {}
+})();
+
+refreshHudBalance();
+</script>
 </body>
 </html>
